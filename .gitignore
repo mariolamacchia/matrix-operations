@@ -1,9 +1,10 @@
 *.o
 *.sh
-*.cpb
+*.cbp
 *.dev
 *.bin
-Icon
+Icon*
+output*
 .objs/
 *.DS_Store
 *.swp
