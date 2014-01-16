@@ -1,2 +1,9 @@
 *.o
 *.sh
+*.cpb
+*.dev
+*.bin
+Icon
+.objs/
+*.DS_Store
+*.swp
