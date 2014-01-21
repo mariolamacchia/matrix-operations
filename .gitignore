@@ -9,3 +9,5 @@ output*
 *.DS_Store
 *.swp
 *.exe
+*.depend
+*.layout
