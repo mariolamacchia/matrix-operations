@@ -8,3 +8,4 @@ output*
 .objs/
 *.DS_Store
 *.swp
+*.exe
