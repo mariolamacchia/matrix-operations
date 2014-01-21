@@ -43,3 +43,6 @@ Contributes
 -----------
 
 Please, feel free to use this code as you need. Any issue or pull request would be greatly appreciated.
+
+I apologize for using Italian in my source code, I am asked to write file names and comments
+in my mother tongue. I will translate everything as soon as I have time.
