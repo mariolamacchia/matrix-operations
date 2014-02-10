@@ -15,10 +15,10 @@ Each library will perform those operations on matrices made on different data st
 
 - One index array
 - Two index array
-- One index pointer
-- Two index pointer
-- One index list
-- Two index list
+- Single pointer
+- Double pointer
+- Single list
+- Nested lists
 
 The program must also be able to:
 
