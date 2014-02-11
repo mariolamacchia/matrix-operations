@@ -1,4 +1,4 @@
-#include "funzioni.h"
+#include "functions.h"
 
 int somma (matrice, matrice, matrice*);
 int differenza (matrice, matrice, matrice*);

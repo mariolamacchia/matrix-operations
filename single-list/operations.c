@@ -1,7 +1,7 @@
 /********************************************
             OPERAZIONI TRA MATRICI
 ********************************************/
-#include "operazioni.h"
+#include "operations.h"
 #include <math.h>
 #include <stdio.h>
 

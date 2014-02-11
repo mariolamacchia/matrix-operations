@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "funzioni.h"
+#include "functions.h"
 
 //SCRIVERE E LEGGERE GRANDEZZE
 int scrivi_righe (matrice * matrix, int righe)
@@ -29,29 +29,81 @@ int leggi_colonne (matrice matrix)
 //INIZIALIZZAZIONE
 int inizializza_matrice (matrice *matrix,int righe, int colonne)
 {
-    int i;
+        int i,j;
+        lista_di_elementi lista_temp;
+        elemento_lista * elemento;
+        lista_lista * lista;
 
-    if (righe <= 0 || colonne <= 0) return 5;
-    scrivi_righe(matrix, righe);
-    scrivi_colonne(matrix, colonne);
-    matrix->valori = malloc(righe * colonne * sizeof(float));
-    return 0;
+        if (righe <=0 || colonne <=0) return 5;
+        scrivi_righe(matrix, righe);
+        scrivi_colonne(matrix, colonne);
+        matrix->valori = NULL;          //Inizializza lista di liste
+        for (i=0; i< righe; i++)
+        {
+            lista_temp = NULL;     //Inizializza lista di elementi temporale
+            for (j=0;j<colonne;j++)
+            {
+                //Inserisci colonne elementi
+                  elemento= malloc(sizeof(elemento_lista)) ;
+                  elemento->prossimo=lista_temp;
+                  lista_temp=elemento;
+            }
+            //Inserisci nodo alla lista di liste contenente la lista di elementi appena creata
+            lista = malloc(sizeof(lista_lista));
+            lista->prossimo = matrix->valori;
+            lista->info= lista_temp;
+            matrix->valori = lista;
+        }
+
+        return 0;
 }
 
 //SCRIVERE E LEGGERE VALORI MATRICE
 int scrivi_matrice (matrice *matrix, int riga, int colonna, float valore)
 {
-     if (riga < 0 || riga >= leggi_righe(*matrix) || colonna < 0 || colonna >= leggi_colonne(*matrix) )
-        return 7;
-     *(matrix->valori + (colonna*leggi_righe(*matrix)+ riga))=valore;
+     int i;
+     lista_di_elementi punt_colonna;
+     lista_di_liste punt_riga;
+
+     if (riga >= leggi_righe(*matrix) || colonna >= leggi_colonne(*matrix)
+         || riga < 0 || colonna < 0) return 7;
+
+     punt_riga=matrix->valori;
+     for (i=0;i<riga;i++)
+     {
+         punt_riga=punt_riga->prossimo;
+     }
+     punt_colonna = punt_riga->info;
+     for (i=0;i<colonna;i++)
+     {
+         punt_colonna = punt_colonna->prossimo;
+     }
+
+     punt_colonna->info = valore;
      return 0;
 }
 
 int leggi_matrice (matrice matrix, int riga, int colonna, float * valore)
 {
-     if (riga < 0 || riga >= leggi_righe(matrix) || colonna < 0 || colonna >= leggi_colonne(matrix) )
-        return 6;
-     *valore = *(matrix.valori + (colonna*leggi_righe(matrix)+riga));
+     int i;
+     lista_di_elementi punt_colonna;
+     lista_di_liste punt_riga;
+
+     if (riga >= leggi_righe(matrix) || colonna >= leggi_colonne(matrix)
+         || riga < 0 || colonna < 0) return 6;
+
+     punt_riga=matrix.valori;
+     for (i=0;i<riga;i++)
+     {
+         punt_riga=punt_riga->prossimo;
+     }
+     punt_colonna = punt_riga->info;
+     for (i=0;i<colonna;i++)
+     {
+         punt_colonna = punt_colonna->prossimo;
+     }
+
+     *valore = punt_colonna->info;
      return 0;
 }
 
@@ -111,7 +163,8 @@ int leggi_da_file_bin (matrice * matrix, int matrice_da_leggere, char * file)
 {
       FILE * fp;
       matrice temp;
-      int i;
+      int i, j, errore_fine_file = 0;
+      float valore;
 
       if ((fp = fopen(file,"rb"))!=NULL)
       {
@@ -137,14 +190,19 @@ int leggi_da_file_bin (matrice * matrix, int matrice_da_leggere, char * file)
           else
           {
               fread(&temp, 1, sizeof(matrice), fp);
-              //Reinizializzo la matrice per evitare di sovrascrivere dati
-              if (!inizializza_matrice(matrix,leggi_righe(temp),leggi_colonne(temp))) //Si verifica che la matrice sia inizializzabile
+              //Reinizializzo la matrice
+              if (!inizializza_matrice(matrix, leggi_righe(temp), leggi_colonne(temp)))
               {
-                 //Adesso si leggono i valori e si controlla il numero di dati realmente letti
-                 if (fread(matrix->valori,sizeof(float),leggi_righe(*matrix) * leggi_colonne(*matrix), fp)
-                        != leggi_colonne(*matrix) * leggi_righe(*matrix))
-                    return 4;
-                    else return 0;
+                    //Leggo i valori
+                    for (i=0; i<leggi_righe(*matrix) && !errore_fine_file; i++)
+                        for (j=0; j<leggi_colonne(*matrix) && !errore_fine_file; j++)
+                        {
+                            if (fread(&valore,1,sizeof(float), fp)!=sizeof(float)) errore_fine_file = 1;
+                            scrivi_matrice(matrix,i,j,valore);
+                        }
+                    //Se è stato riscontrato un errore durante la lettura dei valori do esito negativo
+                    if (errore_fine_file) return 4;
+                        else return 0;
               }
               else return 5;
           }
@@ -155,13 +213,20 @@ int leggi_da_file_bin (matrice * matrix, int matrice_da_leggere, char * file)
 int scrivi_su_file_bin (matrice * matrix, char * file)
 {
       FILE * fp;
+      int i,j;
+      float valore;
 
       if ((fp = fopen(file,"ab"))!=NULL)
       {
           //Si scrive innanzitutto la struttura della matrice
           fwrite(matrix,sizeof(matrice),1,fp);
           //Poi si scrivono i valori
-          fwrite(matrix->valori, sizeof(float), leggi_colonne(*matrix)*leggi_righe(*matrix), fp);
+          for(i=0; i< leggi_righe(*matrix); i++)
+            for (j=0; j<leggi_colonne(*matrix); j++)
+          {
+              leggi_matrice(*matrix, i, j, &valore);
+              fwrite(&valore, 1, sizeof(float),fp);
+          }
 
           fclose(fp);
           return 0;

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "operazioni.h"
+#include "operations.h"
 
 
 int main(int argc, char *argv[])

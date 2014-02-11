@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "funzioni.h"
+#include "functions.h"
 
 //SCRIVERE E LEGGERE GRANDEZZE
 int scrivi_righe (matrice * matrix, int righe)
