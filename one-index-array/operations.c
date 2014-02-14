@@ -5,41 +5,41 @@
 #include <math.h>
 #include <stdio.h>
 
-int somma (matrice matrix1, matrice matrix2, matrice * risultato)
+int sum(Matrix matrix1, Matrix matrix2, Matrix * result)
 {
     int i,j;
-    float valore_matrice1, valore_matrice2;
+    float matrixValue1, matrixValue2;
 
-    if ((leggi_righe(matrix1)==leggi_righe(matrix2))&&(leggi_colonne(matrix1)==leggi_colonne(matrix2)))
+    if ((readRows(matrix1)==readRows(matrix2))&&(readColumns(matrix1)==readColumns(matrix2)))
     {
-    inizializza_matrice(risultato,leggi_righe(matrix1),leggi_colonne(matrix2));
-        for (i=0; i<leggi_righe(*risultato); i++)
-            for (j=0; j<leggi_colonne(*risultato); j++)
+    initMatrix(result,readRows(matrix1),readColumns(matrix2));
+        for(i=0; i<readRows(*result); i++)
+            for(j=0; j<readColumns(*result); j++)
             {
-                leggi_matrice(matrix1, i, j, &valore_matrice1);
-                leggi_matrice(matrix2, i, j, &valore_matrice2);
-                scrivi_matrice(risultato,i,j,valore_matrice1+valore_matrice2);
+                readMatrix(matrix1, i, j, &matrixValue1);
+                readMatrix(matrix2, i, j, &matrixValue2);
+                writeMatrix(result,i,j,matrixValue1+matrixValue2);
             }
     return 0;
     }
     else return 2;
 }
 
-int differenza (matrice matrix1, matrice matrix2, matrice * risultato)
+int difference(Matrix matrix1, Matrix matrix2, Matrix * result)
 {
     int i,j;
-    float valore_matrice1, valore_matrice2;
+    float matrixValue1, matrixValue2;
 
-    if ((leggi_righe(matrix1)==leggi_righe(matrix2))&&(leggi_colonne(matrix1)==leggi_colonne(matrix2)))
+    if ((readRows(matrix1)==readRows(matrix2))&&(readColumns(matrix1)==readColumns(matrix2)))
     {
-    prodotto_scalare(matrix2,-1,&matrix2);
-    inizializza_matrice(risultato,leggi_righe(matrix1),leggi_colonne(matrix2));
-        for (i=0; i<leggi_righe(*risultato); i++)
-            for (j=0; j<leggi_colonne(*risultato); j++)
+    scalarProduct(matrix2,-1,&matrix2);
+    initMatrix(result,readRows(matrix1),readColumns(matrix2));
+        for(i=0; i<readRows(*result); i++)
+            for(j=0; j<readColumns(*result); j++)
             {
-                leggi_matrice(matrix1, i, j, &valore_matrice1);
-                leggi_matrice(matrix2, i, j, &valore_matrice2);
-                scrivi_matrice(risultato,i,j,valore_matrice1+valore_matrice2);
+                readMatrix(matrix1, i, j, &matrixValue1);
+                readMatrix(matrix2, i, j, &matrixValue2);
+                writeMatrix(result,i,j,matrixValue1+matrixValue2);
             }
     return 0;
     }
@@ -47,72 +47,72 @@ int differenza (matrice matrix1, matrice matrix2, matrice * risultato)
     else return 2;
 }
 
-int prodotto_scalare (matrice matrix, float valore, matrice * risultato)
+int scalarProduct(Matrix matrix, float value, Matrix * result)
 {
         int i,j;
-        float valore_matrice;
+        float matrixValue;
 
-        inizializza_matrice(risultato, leggi_righe(matrix), leggi_colonne(matrix));
-        for (i=0; i<leggi_righe(*risultato); i++)
-            for (j=0; j<leggi_colonne(*risultato); j++)
+        initMatrix(result, readRows(matrix), readColumns(matrix));
+        for(i=0; i<readRows(*result); i++)
+            for(j=0; j<readColumns(*result); j++)
             {
-                leggi_matrice(matrix, i, j, &valore_matrice);
-                scrivi_matrice (risultato, i, j, valore_matrice * valore);
+                readMatrix(matrix, i, j, &matrixValue);
+                writeMatrix(result, i, j, matrixValue * value);
             }
         return 0;
 }
 
-int trasposta (matrice matrix, matrice * risultato)
+int transposed(Matrix matrix, Matrix * result)
 {
         int i,j;
-        float valore_matrice;
+        float matrixValue;
 
-        inizializza_matrice(risultato,leggi_colonne(matrix),leggi_righe(matrix));
-        for (i=0; i<leggi_righe(*risultato); i++)
-            for (j=0; j<leggi_colonne(*risultato); j++)
+        initMatrix(result,readColumns(matrix),readRows(matrix));
+        for(i=0; i<readRows(*result); i++)
+            for(j=0; j<readColumns(*result); j++)
             {
-                leggi_matrice(matrix, j, i, &valore_matrice);
-                scrivi_matrice(risultato, i, j, valore_matrice);
+                readMatrix(matrix, j, i, &matrixValue);
+                writeMatrix(result, i, j, matrixValue);
             }
         return 0;
 }
 
-int prodotto (matrice matrix1, matrice matrix2, matrice * risultato)
+int vectorialProduct(Matrix matrix1, Matrix matrix2, Matrix * result)
 {
         int i,j,h;
-        float valore, valore_matrice1, valore_matrice2;
+        float value, matrixValue1, matrixValue2;
 
-        if (leggi_colonne(matrix1)==leggi_righe(matrix2))
+        if (readColumns(matrix1)==readRows(matrix2))
         {
-            inizializza_matrice (risultato, leggi_righe(matrix1), leggi_colonne(matrix2));
+            initMatrix(result, readRows(matrix1), readColumns(matrix2));
 
-            for (i=0; i<leggi_righe(*risultato); i++)
-                for (j=0; j<leggi_colonne(*risultato); j++)
+            for(i=0; i<readRows(*result); i++)
+                for(j=0; j<readColumns(*result); j++)
                 {
-                    valore=0;
-                    for (h=0; h<leggi_colonne(matrix1); h++)
+                    value=0;
+                    for(h=0; h<readColumns(matrix1); h++)
                     {
-                        leggi_matrice(matrix1, i, h, &valore_matrice1);
-                        leggi_matrice(matrix2, h, j, &valore_matrice2);
-                        valore += valore_matrice1 * valore_matrice2;
+                        readMatrix(matrix1, i, h, &matrixValue1);
+                        readMatrix(matrix2, h, j, &matrixValue2);
+                        value += matrixValue1 * matrixValue2;
                     }
-                    scrivi_matrice(risultato, i, j, valore);
+                    writeMatrix(result, i, j, value);
                 }
             return 0;
         }
         else return 2;
 }
 
-void stampa_errore(int error)
+void printError(int error)
 {
      /*
        0: OK
        1: File inesistente
        2: Grandezze matrici inadatte all'operazione
        3: Raggiungimento eof prima del previsto
-       4: Errore durante la lettura della matrice dal file
+       4: Errore durante la lettura della matrix dal file
      */
-     switch (error)
+     switch(error)
      {
 
             case 1:
@@ -122,18 +122,18 @@ void stampa_errore(int error)
                  puts("Errore durante il calcolo: le matrici non hanno le dimensioni adatte per eseguire l'operaizone!");
                  break;
             case 3:
-                 puts("Errore durante la lettura del file: il file e' troppo corto. Si controlli che la matrice esista nel file.");
+                 puts("Errore durante la lettura del file: il file e' troppo corto. Si controlli che la matrix esista nel file.");
                  break;
             case 4:
-                 puts("Errore durante la lettura del file: la matrice indicata non e' leggibile! Controllare che il file non sia danneggiato.");
+                 puts("Errore durante la lettura del file: la matrix indicata non e' readbile! Controllare che il file non sia danneggiato.");
                  break;
             case 5:
-                 puts("Errore durante la scrittura della matrice: il numero di righe e colonne dev'essere maggiore di zero!");
+                 puts("Errore durante la scrittura della matrix: il numero di rows e cols dev'essere maggiore di zero!");
                  break;
             case 6:
-                 puts("Errore durante la lettura della matrice: la riga o la colonna richiesta non esistono!");
+                 puts("Errore durante la lettura della matrix: la row o la col richiesta non esistono!");
                  break;
             case 7:
-                 puts("Errore durante la scrittura della matrice: la riga o la colonna richiesta non esistono!");
+                 puts("Errore durante la scrittura della matrix: la row o la col richiesta non esistono!");
      }
 }
