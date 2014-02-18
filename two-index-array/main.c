@@ -5,87 +5,87 @@
 
 int main(int argc, char *argv[])
 {
-    matrice matrix1, matrix2, matrix3;
+    Matrix matrix1, matrix2, matrix3;
     float scalarProductValue = 15.4;
     int i;
 
-    printf("%d", leggi_da_file_txt(&matrix1, 0, FILE_INPUT));
-    stampa(matrix1);
+    printf("%d", readFromTxtFile(&matrix1, 0, INPUT_FILE));
+    print(matrix1);
     puts("Press enter to continue");
     getchar();
     i=0;
     puts("PRINT INPUT");
-    while (!leggi_da_file_txt(&matrix1, i++, FILE_INPUT))
+    while(!readFromTxtFile(&matrix1, i++, INPUT_FILE))
     {
-        stampa(matrix1);
+        print(matrix1);
     }
     puts("Press enter to continue");
     getchar();
 
     i=0;
     puts("PRINT OUTPUT");
-    while (!leggi_da_file_bin(&matrix1, i++, FILE_OUTPUT))
+    while(!readFromBinFile(&matrix1, i++, OUTPUT_FILE))
     {
-        stampa(matrix1);
+        print(matrix1);
     }
     puts("Press enter to continue");
     getchar();
 
-    svuota_file(FILE_OUTPUT);
+    emptyFile(OUTPUT_FILE);
     i=0;
     puts("COPY INPUT MATRICES TO OUTPUT");
-    while (!leggi_da_file_txt(&matrix1, i, FILE_INPUT))
+    while(!readFromTxtFile(&matrix1, i, INPUT_FILE))
     {
-        stampa_errore(scrivi_su_file_bin(&matrix1, FILE_OUTPUT));
-        stampa_errore(leggi_da_file_bin(&matrix2, i++, FILE_OUTPUT));
-        stampa(matrix2);
+        printError(writeToBinFile(&matrix1, OUTPUT_FILE));
+        printError(readFromBinFile(&matrix2, i++, OUTPUT_FILE));
+        print(matrix2);
     }
     puts("Press enter to continue");
     getchar();
-    svuota_file(FILE_OUTPUT);
+    emptyFile(OUTPUT_FILE);
 
     //SOMMA
     puts("\nOPERATIONS\nSUM matrix 0 + matrix 1");
-    stampa_errore(leggi_da_file_txt(&matrix1, 0, FILE_INPUT));
-    stampa_errore(leggi_da_file_txt(&matrix2, 1, FILE_INPUT));
-    stampa_errore(somma(matrix1, matrix2, &matrix3));
-    stampa_errore(scrivi_su_file_bin(&matrix3, FILE_OUTPUT));
-    stampa_errore(leggi_da_file_bin(&matrix3, 0, FILE_OUTPUT));
-    stampa(matrix3);
+    printError(readFromTxtFile(&matrix1, 0, INPUT_FILE));
+    printError(readFromTxtFile(&matrix2, 1, INPUT_FILE));
+    printError(sum(matrix1, matrix2, &matrix3));
+    printError(writeToBinFile(&matrix3, OUTPUT_FILE));
+    printError(readFromBinFile(&matrix3, 0, OUTPUT_FILE));
+    print(matrix3);
 
     //DIFFERENZA
     puts("DIFFERENCE matrix 2 - matrix 3");
-    stampa_errore(leggi_da_file_txt(&matrix1, 2, FILE_INPUT));
-    stampa_errore(leggi_da_file_txt(&matrix2, 3, FILE_INPUT));
-    stampa_errore(differenza(matrix1, matrix2, &matrix3));
-    stampa_errore(scrivi_su_file_bin(&matrix3, FILE_OUTPUT));
-    stampa_errore(leggi_da_file_bin(&matrix3, 1, FILE_OUTPUT));
-    stampa(matrix3);
+    printError(readFromTxtFile(&matrix1, 2, INPUT_FILE));
+    printError(readFromTxtFile(&matrix2, 3, INPUT_FILE));
+    printError(difference(matrix1, matrix2, &matrix3));
+    printError(writeToBinFile(&matrix3, OUTPUT_FILE));
+    printError(readFromBinFile(&matrix3, 1, OUTPUT_FILE));
+    print(matrix3);
 
     //PRODOTTO
     puts("PRODUCT matrix 4 X matrix 5");
-    stampa_errore(leggi_da_file_txt(&matrix1, 4, FILE_INPUT));
-    stampa_errore(leggi_da_file_txt(&matrix2, 5, FILE_INPUT));
-    stampa_errore(prodotto(matrix1, matrix2, &matrix3));
-    stampa_errore(scrivi_su_file_bin(&matrix3, FILE_OUTPUT));
-    stampa_errore(leggi_da_file_bin(&matrix3, 2, FILE_OUTPUT));
-    stampa(matrix3);
+    printError(readFromTxtFile(&matrix1, 4, INPUT_FILE));
+    printError(readFromTxtFile(&matrix2, 5, INPUT_FILE));
+    printError(vectorialProduct(matrix1, matrix2, &matrix3));
+    printError(writeToBinFile(&matrix3, OUTPUT_FILE));
+    printError(readFromBinFile(&matrix3, 2, OUTPUT_FILE));
+    print(matrix3);
 
     //TRASPOSTA
     puts("TRANSPOSED matrix 6");
-    stampa_errore(leggi_da_file_txt(&matrix1, 6, FILE_INPUT));
-    stampa_errore(trasposta(matrix1, &matrix3));
-    stampa_errore(scrivi_su_file_bin(&matrix3, FILE_OUTPUT));
-    stampa_errore(leggi_da_file_bin(&matrix3, 3, FILE_OUTPUT));
-    stampa(matrix3);
+    printError(readFromTxtFile(&matrix1, 6, INPUT_FILE));
+    printError(transposed(matrix1, &matrix3));
+    printError(writeToBinFile(&matrix3, OUTPUT_FILE));
+    printError(readFromBinFile(&matrix3, 3, OUTPUT_FILE));
+    print(matrix3);
 
     //PRODOTTO SCALARE
     puts("SCALAR PRODUCT matrix 7 * 15.4");
-    stampa_errore(leggi_da_file_txt(&matrix1, 7, FILE_INPUT));
-    stampa_errore(prodotto_scalare(matrix1, scalarProductValue, &matrix3));
-    stampa_errore(scrivi_su_file_bin(&matrix3, FILE_OUTPUT));
-    stampa_errore(leggi_da_file_bin(&matrix3, 4, FILE_OUTPUT));
-    stampa(matrix3);
+    printError(readFromTxtFile(&matrix1, 7, INPUT_FILE));
+    printError(scalarProduct(matrix1, scalarProductValue, &matrix3));
+    printError(writeToBinFile(&matrix3, OUTPUT_FILE));
+    printError(readFromBinFile(&matrix3, 4, OUTPUT_FILE));
+    print(matrix3);
 
     puts("Press enter to continue");
     getchar();

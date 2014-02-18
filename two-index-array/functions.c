@@ -1,70 +1,70 @@
 #include <stdio.h>
 #include "functions.h"
 
-//SCRIVERE E LEGGERE GRANDEZZE
-int scrivi_righe (matrice * matrix, int righe)
+// Write and read sizes
+int writeRows(Matrix * matrix, int rows)
 {
-    if (righe <= 0) return 5;
-    matrix->righe=righe;
+    if (rows <= 0) return 5;
+    matrix->rows=rows;
     return 0;
 }
 
-int scrivi_colonne (matrice *matrix, int colonne)
+int writeColumns(Matrix *matrix, int cols)
 {
-     if (colonne <=0) return 5;
-     matrix->colonne=colonne;
+     if (cols <=0) return 5;
+     matrix->cols=cols;
      return 0;
 }
 
-int leggi_righe (matrice matrix)
+int readRows(Matrix matrix)
 {
-    return matrix.righe;
+    return matrix.rows;
 }
 
-int leggi_colonne (matrice matrix)
+int readColumns(Matrix matrix)
 {
-    return matrix.colonne;
+    return matrix.cols;
 }
 
-//INIZIALIZZAZIONE
-int inizializza_matrice (matrice *matrix,int righe, int colonne)
+//Initialize
+int initMatrix(Matrix *matrix,int rows, int cols)
 {
-        if (righe <= 0 || colonne <= 0) return 5;
-        scrivi_righe(matrix, righe);
-        scrivi_colonne(matrix, colonne);
+        if (rows <= 0 || cols <= 0) return 5;
+        writeRows(matrix, rows);
+        writeColumns(matrix, cols);
         return 0;
 }
 
-//SCRIVERE E LEGGERE VALORI MATRICE
-int scrivi_matrice (matrice *matrix, int riga, int colonna, float valore)
+// Write and read values MATRICE
+int writeMatrix(Matrix *matrix, int row, int col, float value)
 {
-     if (riga < 0 || riga >= leggi_righe(*matrix) || colonna < 0 || colonna >= leggi_colonne(*matrix) )
+     if (row < 0 || row >= readRows(*matrix) || col < 0 || col >= readColumns(*matrix) )
         return 7;
-     matrix->valori[riga][colonna]=valore;
+     matrix->values[row][col]=value;
      return 0;
 }
 
-int leggi_matrice (matrice matrix, int riga, int colonna, float * valore)
+int readMatrix(Matrix matrix, int row, int col, float * value)
 {
-     if (riga < 0 || riga >= leggi_righe(matrix) || colonna < 0 || colonna >= leggi_colonne(matrix) )
+     if (row < 0 || row >= readRows(matrix) || col < 0 || col >= readColumns(matrix) )
         return 6;
-     *valore = matrix.valori[riga][colonna];
+     *value = matrix.values[row][col];
      return 0;
 }
 
-//INTERFACCIA UTENTE
-int stampa (matrice matrix)
+// GUI
+int print(Matrix matrix)
 {
      int i,j;
-     float valore_matrice;
+     float matrixValue;
 
      puts("--------");
-     for (i=0; i<leggi_righe(matrix); i++)
+     for(i=0; i<readRows(matrix); i++)
      {
-         for (j=0; j<leggi_colonne(matrix); j++)
+         for(j=0; j<readColumns(matrix); j++)
          {
-             leggi_matrice(matrix, i, j, &valore_matrice);
-             printf("%f ", valore_matrice);
+             readMatrix(matrix, i, j, &matrixValue);
+             printf("%f ", matrixValue);
          }
      printf("\n");
      }
@@ -72,47 +72,47 @@ int stampa (matrice matrix)
      return 0;
 }
 
-int leggi (matrice *matrix)
+int read(Matrix *matrix)
 {
      int i,j,rows,cols;
-     float valore;
+     float value;
 
      do
      {
-     printf("Inserire numero righe: ");
+     printf("Inserire numero rows: ");
      scanf("%d",&rows);
      }
-     while ((rows<=0)||(rows>DIM_X));
+     while((rows<=0)||(rows>DIM_X));
      do
      {
-     printf("Inserire numero colonne: ");
+     printf("Inserire numero cols: ");
      scanf("%d",&cols);
      }
-     while ((cols<=0)||(cols>DIM_Y));
+     while((cols<=0)||(cols>DIM_Y));
 
-     inizializza_matrice (matrix, rows, cols);
+     initMatrix(matrix, rows, cols);
 
-     for (i=0; i<leggi_righe(*matrix); i++)
-         for (j=0; j<leggi_colonne(*matrix); j++)
+     for(i=0; i<readRows(*matrix); i++)
+         for(j=0; j<readColumns(*matrix); j++)
          {
-             printf("Inserisci valore (%d,%d): ", i, j);
-             scanf("%f",&valore);
-             scrivi_matrice(matrix, i, j, valore);
+             printf("Inserisci value(%d,%d): ", i, j);
+             scanf("%f",&value);
+             writeMatrix(matrix, i, j, value);
          }
 
      return 0;
 }
 
-//FUNZIONI SU FILE
-int leggi_da_file_bin (matrice * matrix, int matrice_da_leggere, char * file)
+// IO functions
+int readFromBinFile(Matrix * matrix, int matrixToBeRead, char * file)
 {
       FILE * fp;
 
       if ((fp = fopen(file,"rb"))!=NULL)
       {
-          //Si raggiunge la matrice da leggere
-          fseek(fp,matrice_da_leggere*sizeof(matrice),SEEK_CUR);
-          //Se si è alla fine del file, la matrice non esiste
+          //Si raggiunge la matrix da leggere
+          fseek(fp,matrixToBeRead*sizeof(matrix),SEEK_CUR);
+          //Se si è alla fine del file, la matrix non esiste
           if (feof(fp))
           {
              fclose(fp);
@@ -120,8 +120,8 @@ int leggi_da_file_bin (matrice * matrix, int matrice_da_leggere, char * file)
           }
           else
           {
-              //Si legge la matrice e si controlla quanti byte sono stati letti
-              if (fread(matrix,1,sizeof(matrice),fp) == sizeof(matrice))
+              //Si legge la matrix e si controlla quanti byte sono stati letti
+              if (fread(matrix,1,sizeof(matrix),fp) == sizeof(matrix))
               {
                   fclose(fp);
                   return 0;
@@ -140,13 +140,13 @@ int leggi_da_file_bin (matrice * matrix, int matrice_da_leggere, char * file)
       else return 1;
 }
 
-int scrivi_su_file_bin (matrice * matrix, char * file)
+int writeToBinFile(Matrix * matrix, char * file)
 {
       FILE * fp;
 
       if ((fp = fopen(file,"ab"))!=NULL)
       {
-          fwrite(matrix,sizeof(matrice),1,fp);
+          fwrite(matrix,sizeof(matrix),1,fp);
           fclose(fp);
           return 0;
       }
@@ -154,22 +154,22 @@ int scrivi_su_file_bin (matrice * matrix, char * file)
 }
 
 /*
-      I file txt contenenti matrici hanno una matrice per rigo. Ogni rigo
-      è composto da due interi che definiscono righe e colonne e da righe*colonne float
-      che definiscono i valori
+      I file txt contenenti matrici hanno una matrix per rigo. Ogni rigo
+      è composto da due interi che definiscono rows e cols e da rows*cols float
+      che definiscono i values
 */
-int leggi_da_file_txt (matrice * matrix, int matrice_da_leggere, char * file)
+int readFromTxtFile(Matrix * matrix, int matrixToBeRead, char * file)
 {
     FILE * fp;
-    int i,j, righe, colonne, errore_fine_file=0,
+    int i,j, rows, cols, errore_fine_file=0,
         errore_inizializzazione=0;
     char c;
-    float valore;
+    float value;
 
     if ((fp=fopen(file, "r"))!=NULL)
     {
        i=0;
-       while (i< matrice_da_leggere && !(feof(fp)) )
+       while(i< matrixToBeRead && !(feof(fp)) )
        {
              if ((c=getc(fp))=='\n') i++;
                 /* Cerca il simbolo new line tante volte quante sono le matrici
@@ -177,15 +177,15 @@ int leggi_da_file_txt (matrice * matrix, int matrice_da_leggere, char * file)
        }
        if (!feof(fp))
        {
-           fscanf(fp,"%d%d",&righe,&colonne);
-           if (!(errore_inizializzazione=inizializza_matrice(matrix,righe,colonne)))
+           fscanf(fp,"%d%d",&rows,&cols);
+           if (!(errore_inizializzazione=initMatrix(matrix,rows,cols)))
            {
-               for (i=0;i<righe && !errore_fine_file;i++)
-                   for (j=0; j<colonne && !errore_fine_file; j++)
+               for(i=0;i<rows && !errore_fine_file;i++)
+                   for(j=0; j<cols && !errore_fine_file; j++)
                    {
                         if (feof(fp)) errore_fine_file=1;
-                        fscanf(fp,"%f",&valore);
-                        scrivi_matrice(matrix,i,j,valore);
+                        fscanf(fp,"%f",&value);
+                        writeMatrix(matrix,i,j,value);
                    }
 
                //Si controlla se si è raggiunta la fine del file
@@ -201,7 +201,7 @@ int leggi_da_file_txt (matrice * matrix, int matrice_da_leggere, char * file)
                    o se non finisce il file prima di trovarne uno, c'è un errore
                    */
                    do c = getc(fp);
-                       while (c==' ' &&!feof(fp));
+                       while(c==' ' &&!feof(fp));
                    if (c != '\n' && !feof(fp)) return 4;
                    return 0;
                }
@@ -220,20 +220,20 @@ int leggi_da_file_txt (matrice * matrix, int matrice_da_leggere, char * file)
     }
 }
 
-int scrivi_su_file_txt (matrice * matrix, char * file)
+int writeToTxtFile(Matrix * matrix, char * file)
 {
       FILE * fp;
       int i,j;
-      float valore_matrice;
+      float matrixValue;
 
       if ((fp = fopen(file,"a"))!=NULL)
       {
-          fprintf(fp,"\n%d %d ", leggi_righe(*matrix), leggi_colonne(*matrix));
-          for (i=0; i<leggi_righe(*matrix);i++)
-              for (j=0; j<leggi_colonne(*matrix);j++)
+          fprintf(fp,"\n%d %d ", readRows(*matrix), readColumns(*matrix));
+          for(i=0; i<readRows(*matrix);i++)
+              for(j=0; j<readColumns(*matrix);j++)
               {
-                  leggi_matrice(*matrix, i, j, &valore_matrice);
-                  fprintf(fp,"%f ",valore_matrice);
+                  readMatrix(*matrix, i, j, &matrixValue);
+                  fprintf(fp,"%f ",matrixValue);
               }
           fprintf(fp,"\n");
 
@@ -243,7 +243,7 @@ int scrivi_su_file_txt (matrice * matrix, char * file)
       else return 1;
 }
 
-int svuota_file (char * file)
+int emptyFile(char * file)
 {
     FILE * fp;
 
