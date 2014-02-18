@@ -1,5 +1,5 @@
 /********************************************
-            OPERAZIONI TRA MATRICI
+              MATRIX OPERATIONS
 ********************************************/
 #include "operations.h"
 #include <math.h>
@@ -107,33 +107,33 @@ void printError(int error)
 {
      /*
        0: OK
-       1: File inesistente
-       2: Grandezze matrici inadatte all'operazione
-       3: Raggiungimento eof prima del previsto
-       4: Errore durante la lettura della matrix dal file
+       1: Non-existent file
+       2: Invalid matrices sizes
+       3: Eof found before expecting
+       4: Error while reading matrix from file
      */
      switch(error)
      {
 
             case 1:
-                 puts("Errore durante la lettura del file: file inesistente!");
+                 puts("Error while reading file: non-existent file!");
                  break;
             case 2:
-                 puts("Errore durante il calcolo: le matrici non hanno le dimensioni adatte per eseguire l'operaizone!");
+                 puts("Error while calculating: matrices' size is not suitable for this kind of operation!");
                  break;
             case 3:
-                 puts("Errore durante la lettura del file: il file e' troppo corto. Si controlli che la matrix esista nel file.");
+                 puts("Error while reading file: file is too short. Check if file contains matrix.");
                  break;
             case 4:
-                 puts("Errore durante la lettura del file: la matrix indicata non e' readbile! Controllare che il file non sia danneggiato.");
+                 puts("Error while reading file: indicated matrix is not readable! File may be corrupt.");
                  break;
             case 5:
-                 puts("Errore durante la scrittura della matrix: il numero di rows e cols dev'essere maggiore di zero!");
+                 puts("Error while writing matrix: row and col's number must be non-zero!");
                  break;
             case 6:
-                 puts("Errore durante la lettura della matrix: la row o la col richiesta non esistono!");
+                 puts("Error while reading matrix: requested row or column is non-existent!");
                  break;
             case 7:
-                 puts("Errore durante la scrittura della matrix: la row o la col richiesta non esistono!");
+                 puts("Error while writing matrix: requested row or column is non-existent!");
      }
 }
