@@ -6,14 +6,18 @@ int writeRows(Matrix * matrix, int rows)
 {
     if (rows <= 0)
         return 5;
+
     matrix->rows = rows;
+    
     return 0;
 }
 
 int writeColumns(Matrix *matrix, int cols)
 {
     if (cols <=0) return 5;
+
     matrix->cols = cols;
+    
     return 0;
 }
 
@@ -32,8 +36,10 @@ int initMatrix(Matrix *matrix,int rows, int cols)
 {
     if (rows <= 0 || cols <= 0)
         return 5;
+
     writeRows(matrix, rows);
     writeColumns(matrix, cols);
+    
     return 0;
 }
 
@@ -48,7 +54,9 @@ int writeMatrix(Matrix *matrix, int row, int col, float value)
             col >= readColumns(*matrix)
         )
         return 7;
+
     matrix->values[col*readRows(*matrix)+ row]=value;
+    
     return 0;
 }
 
@@ -64,6 +72,7 @@ int readMatrix(Matrix matrix, int row, int col, float * value)
         return 6;
 
     *value = matrix.values[col*readRows(matrix)+ row];
+
     return 0;
 }
 
