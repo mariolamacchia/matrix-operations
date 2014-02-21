@@ -2,9 +2,9 @@
       FUNZIONI PER MATRICE A DUE INDICI
 ********************************************/
 
-#define FILE_INPUT "input.txt"
-#define FILE_OUTPUT "output"
-//FILE_INPUT E FILE_OUTPUT sono i file dove vengono salvate le matrici
+#define INPUT_FILE "input.txt"
+#define OUTPUT_FILE "output"
+//INPUT_FILE E OUTPUT_FILE sono i file dove vengono salvate le matrici
 
 typedef struct elemlist
         {
@@ -21,35 +21,33 @@ typedef struct listlist
 typedef lista_lista * lista_di_liste;
 
 typedef struct {
-        int righe;
-        int colonne;
-        lista_di_liste valori;
-        } matrice;
+        int rows;
+        int cols;
+        lista_di_liste values;
+        } Matrix;
 
-//INIZIALIZZAZIONE
-int inizializza_matrice (matrice*,int righe, int colonne);
+//Initialize
+int initMatrix(Matrix*,int rows, int cols);
 
-//SCRIVERE E LEGGERE GRANDEZZE
-int scrivi_righe (matrice*, int);
-int scrivi_colonne (matrice*, int);
-int leggi_righe (matrice);
-int leggi_colonne (matrice);
+// Write and read sizes
+int writeRows(Matrix*, int);
+int writeColumns(Matrix*, int);
+int readRows(Matrix);
+int readColumns(Matrix);
 
-//SCRIVERE E LEGGERE VALORI
-int scrivi_matrice (matrice*, int riga, int colonna, float valore);
-int leggi_matrice (matrice, int riga, int colonna, float * valore);
+// Write and read values
+int writeMatrix(Matrix*, int row, int col, float value);
+int readMatrix(Matrix, int row, int col, float * value);
 
-//INTERFACCIA UTENTE
+// GUI
 //funzioni necessarie all'utente in fase di esecuzione
-int stampa (matrice);
-int leggi (matrice*);
+int print(Matrix);
+int read(Matrix*);
 
-//FUNZIONI SU FILE
-int leggi_da_file_bin (matrice*, int matrice_da_leggere, char * file);
-int leggi_da_file_txt (matrice*, int matrice_da_leggere, char * file);
-    /* matrice_da_leggere (in leggi_da_file_XXX) indica l'indice della matrice da leggere da file
-       l'indice va da 0 a n-1 */
-int scrivi_su_file_bin (matrice*, char * file);
-int scrivi_su_file_txt (matrice*, char * file);
-int svuota_file (char * file);
+// IO functions
+int readFromBinFile(Matrix*, int matrixToBeRead, char * file);
+int readFromTxtFile(Matrix*, int matrixToBeRead, char * file);
+int writeToBinFile(Matrix*, char * file);
+int writeToTxtFile(Matrix*, char * file);
+int emptyFile(char * file);
 

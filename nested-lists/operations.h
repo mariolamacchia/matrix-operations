@@ -1,9 +1,9 @@
 #include "functions.h"
 
-int somma (matrice, matrice, matrice*);
-int differenza (matrice, matrice, matrice*);
-int prodotto_scalare (matrice, float, matrice*);
-int trasposta (matrice, matrice*);
-int prodotto (matrice, matrice, matrice*);
+int sum(Matrix, Matrix, Matrix*);
+int difference(Matrix, Matrix, Matrix*);
+int scalarProduct(Matrix, float, Matrix*);
+int transposed(Matrix, Matrix*);
+int vectorialProduct(Matrix, Matrix, Matrix*);
 
-void stampa_errore(int error);
+void printError(int error);
