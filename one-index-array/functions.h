@@ -38,5 +38,5 @@ int writeToTxtFile(Matrix*, char * file);
 int emptyFile(char * file);
 
 // GUI
-int stampa(Matrix);
+int print(Matrix);
 int read(Matrix*);

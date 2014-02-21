@@ -77,7 +77,7 @@ int readMatrix(Matrix matrix, int row, int col, float * value)
 }
 
 // GUI
-int stampa(Matrix matrix)
+int print(Matrix matrix)
 {
     int i, j;
     float matrixValue;

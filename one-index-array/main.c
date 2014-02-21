@@ -10,14 +10,14 @@ int main(int argc, char *argv[])
     int i;
 
     printf("%d", readFromTxtFile(&matrix1, 0, INPUT_FILE));
-    stampa(matrix1);
+    print(matrix1);
     puts("Press enter to continue");
     getchar();
     i=0;
     puts("PRINT INPUT");
     while(!readFromTxtFile(&matrix1, i++, INPUT_FILE))
     {
-        stampa(matrix1);
+        print(matrix1);
     }
     puts("Press enter to continue");
     getchar();
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     puts("PRINT OUTPUT");
     while(!readFromBinFile(&matrix1, i++, OUTPUT_FILE))
     {
-        stampa(matrix1);
+        print(matrix1);
     }
     puts("Press enter to continue");
     getchar();
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     {
         printError(writeToBinFile(&matrix1, OUTPUT_FILE));
         printError(readFromBinFile(&matrix2, i++, OUTPUT_FILE));
-        stampa(matrix2);
+        print(matrix2);
     }
     puts("Press enter to continue");
     getchar();
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     printError(sum(matrix1, matrix2, &matrix3));
     printError(writeToBinFile(&matrix3, OUTPUT_FILE));
     printError(readFromBinFile(&matrix3, 0, OUTPUT_FILE));
-    stampa(matrix3);
+    print(matrix3);
 
     //DIFFERENZA
     puts("DIFFERENCE matrix 2 - matrix 3");
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     printError(difference(matrix1, matrix2, &matrix3));
     printError(writeToBinFile(&matrix3, OUTPUT_FILE));
     printError(readFromBinFile(&matrix3, 1, OUTPUT_FILE));
-    stampa(matrix3);
+    print(matrix3);
 
     //PRODOTTO
     puts("PRODUCT matrix 4 X matrix 5");
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     printError(vectorialProduct(matrix1, matrix2, &matrix3));
     printError(writeToBinFile(&matrix3, OUTPUT_FILE));
     printError(readFromBinFile(&matrix3, 2, OUTPUT_FILE));
-    stampa(matrix3);
+    print(matrix3);
 
     //TRASPOSTA
     puts("TRANSPOSED matrix 6");
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     printError(transposed(matrix1, &matrix3));
     printError(writeToBinFile(&matrix3, OUTPUT_FILE));
     printError(readFromBinFile(&matrix3, 3, OUTPUT_FILE));
-    stampa(matrix3);
+    print(matrix3);
 
     //PRODOTTO SCALARE
     puts("SCALAR PRODUCT matrix 7 * 15.4");
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     printError(scalarProduct(matrix1, scalarProductValue, &matrix3));
     printError(writeToBinFile(&matrix3, OUTPUT_FILE));
     printError(readFromBinFile(&matrix3, 4, OUTPUT_FILE));
-    stampa(matrix3);
+    print(matrix3);
 
     puts("Press enter to continue");
     getchar();
